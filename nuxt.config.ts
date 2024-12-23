@@ -1,16 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4,
-  },
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
 
-  typescript: {
-    typeCheck: true,
-    strict: true,
-    shim: true,
-  },
   modules: [
     '@nuxt/content',
     '@vueuse/nuxt',
@@ -24,24 +14,201 @@ export default defineNuxtConfig({
     'nuxt-og-image',
     'nuxt-carousel',
     '@vueuse/motion/nuxt',
-    '@nuxthq/studio',
-    '@nuxthub/core'
+    '@nuxthub/core',
   ],
+
+  $development: {
+    runtimeConfig: {
+      public: {
+        website: {
+          url: 'http://localhost:3000',
+        },
+      },
+    },
+  },
+  devtools: { enabled: true },
+
+  app: {
+    head: {
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        { name: 'format-detection', content: 'telephone=no' },
+        { name: 'theme-color', content: '#ffffff', media: '(prefers-color-scheme: light)' },
+        { name: 'theme-color', content: '#000000', media: '(prefers-color-scheme: dark)' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
+      ],
+      htmlAttrs: {
+        lang: 'en',
+        class: 'antialiased',
+      },
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'manifest', href: '/site.webmanifest' },
+      ],
+      title: 'Teshane Crawford',
+    },
+    pageTransition: false,
+    layoutTransition: false,
+    keepalive: true,
+  },
   css: [
     '@/assets/css/main.css',
     '@/assets/css/prose.css',
     '@unocss/reset/tailwind.css',
     '@/assets/css/font.css',
-    '@/assets/css/transitions.css'
+    '@/assets/css/transitions.css',
   ],
+
+  site: {
+    url: 'https://teshanecrawford.com',
+  },
   colorMode: {
     preference: 'system',
     fallback: 'light',
     classSuffix: '',
   },
 
+  content: {
+    database: {
+      type: 'd1',
+      binding: 'DB',
+    },
+    studio: {
+      enabled: true,
+    },
+    build: {
+      pathMeta: {
+        forceLeadingSlash: true,
+      },
+      markdown: {
+        toc: {
+          depth: 3,
+          searchDepth: 3,
+        },
+        highlight: {
+          theme: {
+            default: 'vitesse-light',
+            dark: 'vitesse-dark',
+          },
+          langs: [
+            'bash',
+            'css',
+            'diff',
+            'html',
+            'javascript',
+            'js',
+            'json',
+            'markdown',
+            'md',
+            'powershell',
+            'scss',
+            'shell',
+            'ts',
+            'tsx',
+            'typescript',
+            'vue',
+            'xml',
+            'yaml',
+            'cs',
+          ],
+        },
+      },
+    },
+  },
+
+  runtimeConfig: {
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudSecret: process.env.NUXT_CLOUD_SECRET_KEY,
+    cloudKey: process.env.NUXT_CLOUD_API_KEY,
+
+    private: {
+    },
+
+    public: {
+      siteUrl: process.env.NUXT_SITE_URL || 'https://teshanecrawford.com',
+      NUXT_WEATHER_API_KEY: process.env.NUXT_WEATHER_API_KEY || '',
+    },
+  },
+
+  routeRules: {
+    '/blog': {
+      isr: true,
+      prerender: true,
+      cache: {
+        maxAge: 60 * 60 * 24,
+        swr: true,
+      },
+    },
+    '/blog/**': {
+      isr: 60 * 60 * 24,
+      prerender: true,
+      headers: {
+        'Cache-Control': 'public, max-age=86400, s-maxage=86400',
+      },
+    },
+    '/projects': {
+      isr: true,
+      prerender: true,
+      cache: {
+        maxAge: 60 * 60,
+        swr: true,
+      },
+      headers: {
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+      },
+    },
+    '/photos': {
+      prerender: true,
+      isr: true,
+      cache: {
+        maxAge: 60 * 60 * 24,
+        staleMaxAge: 60 * 60,
+        swr: true,
+      },
+    },
+    '/photos/*': {
+      prerender: true,
+      isr: true,
+      cache: {
+        maxAge: 60 * 60 * 24 * 7,
+        swr: true,
+      },
+    },
+    '/uses': {
+      prerender: true,
+      static: true,
+    },
+    '/about': {
+      prerender: true,
+      static: true,
+    },
+  }, future: {
+    compatibilityVersion: 4,
+  },
+
+  experimental: {
+    viewTransition: true,
+    componentIslands: true,
+    payloadExtraction: true,
+  },
+  compatibilityDate: '2024-04-03',
+
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/', '/rss.xml', '/projects'],
+      failOnError: false,
+    },
+    // experimental: {
+    //   openAPI: true
+    // }
+  },
+
   hub: {
     cache: true,
+    database: true,
   },
 
   vite: {
@@ -60,53 +227,18 @@ export default defineNuxtConfig({
     ],
   },
 
-  routeRules: {
-    '/blog': {
-      isr: true,
-      prerender: true,
-      cache: {
-        maxAge: 60 * 60 * 24,
-        swr: true
-      }
-    },
-    '/blog/**': {
-      isr: 60 * 60 * 24,
-      prerender: true,
-      headers: {
-        'Cache-Control': 'public, max-age=86400, s-maxage=86400'
-      }
-    },
-    '/projects': {
-      isr: true,
-      prerender: true,
-      cache: {
-        maxAge: 60 * 60,
-        swr: true
+  typescript: {
+    typeCheck: true,
+    strict: true,
+    shim: true,
+  },
+
+  // https://eslint.nuxt.com
+  eslint: {
+    config: {
+      stylistic: {
+        quotes: 'single',
       },
-      headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600'
-      }
-    },
-    // '/photos': {
-    //   prerender: true,
-    //   isr: true,
-    //   cache: {
-    //     maxAge: 60 * 60 * 24,
-    //     staleMaxAge: 60 * 60,
-    //     swr: true
-    //   },
-    // },
-    // '/photos/*': {
-    //   prerender: true,
-    //   isr: true,
-    //   cache: {
-    //     maxAge: 60 * 60 * 24 * 7,
-    //     swr: true
-    //   }
-    // },
-    '/uses': {
-      prerender: true,
-      static: true
     },
   },
 
@@ -118,8 +250,8 @@ export default defineNuxtConfig({
         effect: 'sharpen:100',
         quality: 'auto:best',
         format: 'webp',
-        dpr: 'auto'
-      }
+        dpr: 'auto',
+      },
     },
     screens: {
       xs: 320,
@@ -140,75 +272,10 @@ export default defineNuxtConfig({
           format: 'webp',
           width: 72,
           height: 72,
-          quality: 'auto:best'
-        }
-      }
-    }
-  },
-
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: ['/', '/rss.xml', '/projects'],
-      failOnError: false,
-    },
-    // experimental: {
-    //   openAPI: true
-    // }
-  },
-
-  runtimeConfig: {
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-    cloudSecret: process.env.NUXT_CLOUD_SECRET_KEY,
-    cloudKey: process.env.NUXT_CLOUD_API_KEY,
-
-    private: {
-    },
-
-    public: {
-      siteUrl: process.env.NUXT_SITE_URL || 'https://teshanecrawford.com',
-      NUXT_WEATHER_API_KEY: process.env.NUXT_WEATHER_API_KEY || ''
-    }
-  },
-
-  $development: {
-    runtimeConfig: {
-      public: {
-        website: {
-          url: 'http://localhost:3000'
-        }
-      }
-    }
-  },
-
-  app: {
-    head: {
-      meta: [
-        { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-        { name: 'format-detection', content: 'telephone=no' },
-        { name: 'theme-color', content: '#ffffff', media: '(prefers-color-scheme: light)' },
-        { name: 'theme-color', content: '#000000', media: '(prefers-color-scheme: dark)' },
-        { name: 'apple-mobile-web-app-capable', content: 'yes' },
-        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }
-      ],
-      htmlAttrs: {
-        lang: 'en',
-        class: 'antialiased'
+          quality: 'auto:best',
+        },
       },
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'manifest', href: '/site.webmanifest' }
-      ],
-      title: 'Teshane Crawford',
     },
-    pageTransition: false,
-    layoutTransition: false,
-    keepalive: true
-  },
-
-  site: {
-    url: 'https://teshanecrawford.com',
   },
 
   ogImage: {
@@ -219,24 +286,4 @@ export default defineNuxtConfig({
       'DM Mono:400',
     ],
   },
-
-  content: {
-    highlight: {
-      theme: {
-        default: 'vitesse-light',
-        dark: 'vitesse-dark',
-      },
-      preload: ['json', 'js', 'ts', 'html', 'css', 'vue', 'diff', 'shell', 'markdown', 'mermaid', 'yaml', 'bash', 'cs'],
-    },
-  },
-
-  // build: {
-  //   transpile: ['shiki'],
-  // },
-
-  experimental: {
-    viewTransition: true,
-    componentIslands: true,
-    payloadExtraction: true,
-  }
 })

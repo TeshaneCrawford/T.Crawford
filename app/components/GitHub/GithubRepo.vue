@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Repo } from '~~/types/project';
+import type { Repo } from '~~/types/project'
 
 defineProps<{
   repo: Repo
@@ -11,9 +11,9 @@ defineProps<{
     b="~ black op-10"
     dark-b="white op-10"
     trans rounded-md p-4 text-xs shadow-sm
-    hover="bg-neutral bg-op-3"
+    hover="bg-gray bg-op-3"
     dark-hover="bg-white bg-op-3"
-    class="matrix-pattern bg-black/2 dark:bg-white/2"
+    class="matrix-pattern bg-black/1 dark:bg-white/2"
   >
     <a
       :href="repo.homepage || repo.html_url"
@@ -25,7 +25,7 @@ defineProps<{
       <!-- Header with repo name and status -->
       <div flex="~ gap-2" items-center justify-between>
         <h5 m0 flex="~ gap-2" items-center text-sm>
-          <Icon name="i-hugeicons-repository"   h-5 w-5  />
+          <Icon name="i-hugeicons-repository" h-5 w-5 />
           <span class="font-medium">{{ repo.name }}</span>
         </h5>
         <span
@@ -33,7 +33,7 @@ defineProps<{
           items-center
           fw-normal
           important-rounded-sm
-          :class="repo.is_template ? 'dark-badge-xs-yellow badge-xs-blue' : 'dark-badge-xs-teal badge-xs-red'"
+          :class="repo.is_template ? 'dark-badge-xs-yellow badge-xs-blue' : 'dark-badge-xs-teal badge-xs-crimson'"
         >
           {{ repo.private ? 'Private' : 'Public' }}
           {{ repo.is_template ? 'Template' : '' }}

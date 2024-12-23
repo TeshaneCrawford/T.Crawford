@@ -15,7 +15,7 @@ const yearDisplay = startYear === currentYear ? currentYear : `${startYear} - ${
             href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
             rel="noopener noreferrer"
             style="color:inherit"
-            >
+          >
             CC BY-NC-SA 4.0
           </a>
           {{ yearDisplay }} © Teshane Crawford
@@ -27,15 +27,16 @@ const yearDisplay = startYear === currentYear ? currentYear : `${startYear} - ${
       </div>
     </div>
     <div class="text-center op70">
-      <mark class="glow-effect badge-sm-green dark:badge-sm-green fw-medium important-rounded-none">
+      <mark class="glow-effect badge-sm-green fw-medium important-rounded-none">
         <span class="">Site made with </span>
         <a
           href="https://nuxt.com"
           rel="noopener noreferrer"
           target="_blank"
-          class="transition-opacity hover:opacity-75"
+          class="inline-flex items-center transition-opacity hover:opacity-75"
         >
           Nuxt
+          <Icon name="i-catppuccin-nuxt" class="ml-1" />
         </a>
       </mark>
     </div>

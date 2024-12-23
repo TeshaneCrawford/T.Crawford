@@ -9,8 +9,7 @@ tags:
   - Nuxt
   - Vue
   - Image Optimization
-date: '2024-10-28T00:00:00.000Z'
-content: null
+date: 2024-10-28
 ---
 
 ## 🖼️ Mastering Image Optimization in Nuxt 3: A Complete Guide
@@ -97,7 +96,7 @@ export default defineNuxtConfig({
 
 ### Image Format Selection
 
-::detail{title="Click to see format selection logic"}
+::disclosure{title="Click to see format selection logic"}
 First, create a utility function to handle format selection:
 
 ```ts [utils/imageFormatSelector.ts]
