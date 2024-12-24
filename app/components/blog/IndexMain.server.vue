@@ -12,12 +12,13 @@ interface BlogPost {
   date: string
   tags: string[]
   rawbody: string
+  id: string
 }
 
 // Fetch and sort blog posts in descending order by date
 const { data: blog, pending, error } = await useAsyncData<BlogPost[]>('blog', () => {
   return queryCollection('blog')
-    .select('title', 'description', 'authors', 'path', 'date', 'tags', 'rawbody')
+    .select('title', 'description', 'authors', 'id', 'path', 'date', 'tags', 'rawbody')
     .order('date', 'DESC')
     .all()
 })
@@ -49,17 +50,17 @@ const cardTransition = {
 
     <!-- Blog post grid with staggered animation on card entrance -->
     <section
-      v-else-if="blog && blog.length"
+      v-else-if="blog"
       class="grid grid-cols-1 gap-6 md:grid-cols-2"
       aria-label="Blog post list"
     >
       <NuxtLink
         v-for="(blogs, index) in blog"
-        :key="blogs.path"
+        :key="blogs.id"
         v-motion
         :initial="cardTransition.initial"
         :enter="{ ...cardTransition.enter, transition: { ...cardTransition.transition, delay: 150 * index } }"
-        :to="blogs.path"
+        :to="`${blogs.path}`"
         class="group"
         :aria-label="`Read ${blogs.title || 'Untitled post'}`"
       >
