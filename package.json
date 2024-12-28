@@ -24,6 +24,7 @@
     "@iconify-json/catppuccin": "^1.2.8",
     "@iconify-json/hugeicons": "^1.2.3",
     "@iconify-json/tabler": "^1.2.13",
+    "@iconify-json/vscode-icons": "^1.2.6",
     "@nuxt/devtools": "^1.6.4",
     "@nuxt/eslint": "^0.7.4",
     "@nuxt/fonts": "^0.10.3",
@@ -68,5 +69,5 @@
     ]
   },
   "version": "1.1.0",
-  "packageManager": "pnpm@9.12.1+sha512.e5a7e52a4183a02d5931057f7a0dbff9d5e9ce3161e33fa68ae392125b79282a8a8a470a51dfc8a0ed86221442eb2fb57019b0990ed24fab519bf0e1bc5ccfc4"
+  "packageManager": "pnpm@9.15.1"
 }
